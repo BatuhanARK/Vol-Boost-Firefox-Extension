@@ -102,4 +102,20 @@ presetBtns.forEach(btn => {
         const percent = parseInt(btn.dataset.value);
         applyGain(percent);
     });
+
+    btn.addEventListener("mouseenter", () => {
+        if (btn.classList.contains("active")) return;
+        const percent = parseInt(slider.value);
+        const color = getColorForPercent(percent);
+        btn.style.borderColor = color;
+        btn.style.color = color;
+        btn.style.background = `${color}12`;
+    });
+
+    btn.addEventListener("mouseleave", () => {
+        if (btn.classList.contains("active")) return;
+        btn.style.borderColor = "";
+        btn.style.color = "";
+        btn.style.background = "";
+    });
 });
