@@ -44,6 +44,7 @@
     font-size: 22px;
     letter-spacing: 2px;
     color: var(--accent);
+    transition: color 0.3s, text-shadow 0.3s;
   }
 
   .version {
@@ -64,7 +65,7 @@
     font-size: 56px;
     line-height: 1;
     color: var(--accent);
-    transition: color 0.25s;
+    transition: color 0.3s, text-shadow 0.3s;
     letter-spacing: 2px;
   }
 
@@ -142,7 +143,7 @@
     border-radius: 4px;
     cursor: pointer;
     text-align: center;
-    transition: all 0.15s;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
     letter-spacing: 0.5px;
   }
 
@@ -180,12 +181,14 @@
     background: var(--accent);
     box-shadow: 0 0 6px var(--accent);
     flex-shrink: 0;
+    transition: background 0.3s, box-shadow 0.3s, opacity 0.3s;
   }
 
   .status-text {
     font-size: 9px;
     color: var(--text-muted);
     letter-spacing: 1px;
+    transition: color 0.3s, opacity 0.3s;
   }
 </style>
 </head>
@@ -193,7 +196,7 @@
 
 <div class="header">
   <span class="title">VOL BOOST</span>
-  <span class="version">v1.1</span>
+  <span class="version">v1.2</span>
 </div>
 
 <div class="display">

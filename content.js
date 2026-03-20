@@ -18,12 +18,12 @@ function initAudio(){
         gainNode.connect(compressor);
         compressor.connect(audioContext.destination);
 
-        console.log("AudioContext ve gainNode oluşturuldu"); // ← BURAYA LOG
+        console.log("AudioContext ve gainNode oluşturuldu");
     }
 
     if(audioContext.state === "suspended"){
         audioContext.resume();
-        console.log("AudioContext resumed"); // ← BURAYA LOG
+        console.log("AudioContext resumed");
     }
 
     const mediaElements = document.querySelectorAll("video,audio");
@@ -35,7 +35,7 @@ function initAudio(){
             const source = audioContext.createMediaElementSource(media);
             source.connect(gainNode);
             media.dataset.boosted = "true";
-            console.log("Boost applied to media element:", media); // ← BURAYA LOG
+            console.log("Boost applied to media element:", media);
         }catch(e){
             console.log("Audio already connected or unsupported", e);
         }

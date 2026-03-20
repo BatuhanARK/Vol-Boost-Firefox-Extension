@@ -5,7 +5,6 @@ const presetBtns = document.querySelectorAll(".preset-btn");
 const PRESETS = [0, 100, 200, 400, 600];
 
 function getColorForPercent(percent) {
-    // 0→blue, 100→green, 200→yellow, 400→orange, 600→red
     const stops = [
         { p: 0,   r: 71,  g: 180, b: 255 }, // blue
         { p: 100, r: 80,  g: 230, b: 120 }, // green
@@ -45,6 +44,11 @@ function updateDisplay(percent) {
     statusDot.style.background = color;
     statusDot.style.boxShadow = `0 0 6px ${color}`;
     statusText.style.color = color;
+
+    const isActive = percent !== 100;
+    statusDot.style.opacity = isActive ? "1" : "0.2";
+    statusText.style.opacity = isActive ? "1" : "0.2";
+    statusDot.style.boxShadow = isActive ? `0 0 6px ${color}` : "none";
 }
 
 function updateActivePreset(percent) {
@@ -81,7 +85,7 @@ function applyGain(percent) {
     });
 }
 
-// Kayıtlı değeri yükle
+// Load saved gain value
 browser.storage.local.get("gain").then(res => {
     const gainValue = res.gain || 1;
     const percent = Math.round(gainValue * 100);
@@ -90,13 +94,13 @@ browser.storage.local.get("gain").then(res => {
     updateActivePreset(percent);
 });
 
-// Slider değişince
+// Slider input
 slider.addEventListener("input", () => {
     const percent = parseInt(slider.value);
     applyGain(percent);
 });
 
-// Preset butonları
+// Preset buttons
 presetBtns.forEach(btn => {
     btn.addEventListener("click", () => {
         const percent = parseInt(btn.dataset.value);

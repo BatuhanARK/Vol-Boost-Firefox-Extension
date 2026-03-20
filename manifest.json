@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Vol Boost",
-  "version": "1.1",
+  "version": "1.2",
   "description": "Boost tab audio up to 600%",
   "browser_specific_settings": {
     "gecko": {
