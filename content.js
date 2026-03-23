@@ -30,11 +30,19 @@ function initAudio(){
 
     mediaElements.forEach(media=>{
         if(media.dataset.boosted) return;
-
+        
+        const wasPlaying = !media.paused;
+        const currentTime = media.currentTime;
+        
         try{
             const source = audioContext.createMediaElementSource(media);
             source.connect(gainNode);
             media.dataset.boosted = "true";
+
+            if(wasPlaying){
+                media.currentTime = currentTime;
+                media.play().catch(() => {});
+            }
             console.log("Boost applied to media element:", media);
         }catch(e){
             console.log("Audio already connected or unsupported", e);
@@ -42,8 +50,12 @@ function initAudio(){
     });
 }
 
+let initTimeout;
 const observer = new MutationObserver(()=>{
-    initAudio();
+    clearTimeout(initTimeout);
+    initTimeout = setTimeout(() => {
+        initAudio();
+    }, 500);
 });
 
 observer.observe(document.body,{
@@ -52,15 +64,22 @@ observer.observe(document.body,{
 });
 
 browser.runtime.onMessage.addListener(msg => {
-
     if(msg.type === "SET_GAIN"){
-
         initAudio();
-
         gainNode.gain.value = msg.gain;
-
     }
-
+    if(msg.type === "REFRESH"){
+        observer.disconnect();
+        
+        document.querySelectorAll("[data-boosted]").forEach(el => {
+            delete el.dataset.boosted;
+        });
+        
+        initAudio();
+        gainNode.gain.value = gainNode.gain.value;
+        console.log("REFRESH complete, boosted elements:", document.querySelectorAll("[data-boosted]").length);
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
 });
 
 browser.storage.local.get("gain").then(res => {

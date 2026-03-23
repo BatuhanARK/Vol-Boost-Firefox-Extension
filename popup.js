@@ -29,6 +29,7 @@ function getColorForPercent(percent) {
 const titleEl = document.querySelector(".title");
 const statusDot = document.querySelector(".status-dot");
 const statusText = document.querySelector(".status-text");
+const refreshBtn = document.getElementById("refreshBtn");
 
 function updateDisplay(percent) {
     displayValue.textContent = percent;
@@ -121,5 +122,21 @@ presetBtns.forEach(btn => {
         btn.style.borderColor = "";
         btn.style.color = "";
         btn.style.background = "";
+    });
+});
+
+// Refresh button
+refreshBtn.addEventListener("click", () => {
+    const percent = parseInt(slider.value);
+    const color = getColorForPercent(percent);
+    refreshBtn.style.borderColor = color;
+    refreshBtn.style.color = color;
+    setTimeout(() => {
+        refreshBtn.style.borderColor = "";
+        refreshBtn.style.color = "";
+    }, 600);
+
+    browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
+        browser.tabs.sendMessage(tabs[0].id, { type: "REFRESH" });
     });
 });
